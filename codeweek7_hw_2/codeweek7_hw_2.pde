@@ -14,10 +14,12 @@
 //  class on the canvas by any means you prefer.
 
 ArrayList<Ball> balls = new ArrayList<Ball>();
+bouncingEyes myEyes = new bouncingEyes(100, 100, 100, 50);
 
 void setup() {
   size(800, 800);
-  
+
+
   for (int i = 0; i < 10; i++) {
     balls.add(new Ball(random(width), random(height)));
   }
@@ -29,6 +31,70 @@ void draw() {
     Ball ball = balls.get(i);
     ball.display();
     ball.update();
+  }
+
+  //myEyes.eyeMovement();
+  //myEyes.drawEyes();
+  //myEyes.eyeBoundaries();
+  //myEyes.mousePressed();
+
+  myEyes.updateEyeball();
+}
+
+void mousePressed() {
+  myEyes.mousePressed();
+}
+
+class bouncingEyes {
+  float posX;
+  float posY;
+  float eyeWidth;
+  float eyeHeight;
+  float dx = 5;
+  float dy = 5;
+  int r, g, b = 0;
+  color c1 = color(r, g, b);
+
+  bouncingEyes(float posX, float posY, float eyeWidth, float eyeHeight) {
+    this.posX = posX;
+    this.posY = posY;
+    this.eyeWidth = eyeWidth;
+    this.eyeHeight = eyeHeight;
+  }
+  void eyeBoundaries() {
+  }
+  void drawEyes() {
+  }
+
+  void mousePressed() {
+    eyeWidth = 0;
+    eyeHeight = 0;
+  }
+  void eyeMovement() {
+  }
+
+  void updateEyeball() {
+
+    if (posX < 0 + eyeWidth/2 || posX > width - eyeWidth/2) {
+      dx *= -1;
+      r = int(random(0, 255));
+      g = int(random(0, 255));
+      b = int(random(0, 255));
+    }
+    if (posY < 0 + eyeHeight/2 || posY > height - eyeHeight/2) {
+      dy *= -1;
+      r = int(random(0, 255));
+      g = int(random(0, 255));
+      b = int(random(0, 255));
+    }
+    c1 = color(r, g, b);
+    posX += dx;
+    posY += dy;
+
+    fill(255);
+    ellipse(posX, posY, eyeWidth, eyeHeight);
+    fill(c1);
+    ellipse(posX, posY, eyeHeight, eyeHeight);
   }
 }
 
